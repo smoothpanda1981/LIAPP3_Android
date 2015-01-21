@@ -1,53 +1,45 @@
 package com.yan.wang.android.liapp3_android;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
 public class FormActivity extends ActionBarActivity {
 
+    EditText emailEditText;
+    EditText companyEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+
     }
 
     public void callWS(View view) {
-        Toast.makeText(FormActivity.this, "CallWS", Toast.LENGTH_SHORT).show();
+        Toast.makeText(FormActivity.this, "Button OK Clicked", Toast.LENGTH_SHORT).show();
+        emailEditText = (EditText) findViewById(R.id.editEmail);
+        companyEditText = (EditText) findViewById(R.id.editCompanyName);
+        System.out.println("emailEditText = " + emailEditText.getText());
+        System.out.println("companyEditText = " + companyEditText.getText());
+        finish();
+    }
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.2.2:9999/useraccount/register/doregister",params ,new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if(obj.getBoolean("status")){
-                        // Set Default Values for Edit View controls
-                        setDefaultValues();
-                        // Display successfully registered message using Toast
-                        Toast.makeText(getApplicationContext(), "You are successfully registered!", Toast.LENGTH_LONG).show();
-                    }
-                    // Else display error message
-                    else{
-                        errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-
-                }
-            }
+    @Override
+    public void finish() {
+        // Prepare data intent
+        Intent data = new Intent();
+        data.putExtra("email", emailEditText.getText());
+        data.putExtra("company_name", companyEditText.getText());
+        // Activity finished ok, return the data
+        setResult(RESULT_OK, data);
+        super.finish();
     }
 
     @Override

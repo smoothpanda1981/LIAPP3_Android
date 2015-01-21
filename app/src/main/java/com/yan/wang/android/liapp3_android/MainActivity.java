@@ -21,8 +21,19 @@ public class MainActivity extends ActionBarActivity {
     public void goToFormActivity(View view) {
         Toast.makeText(MainActivity.this, "Button Yes Clicked", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, FormActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_OK);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Toast.makeText(this, data.getExtras().getString("email"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, data.getExtras().getString("company_name"), Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
