@@ -14,6 +14,8 @@ public class FormActivity extends ActionBarActivity {
 
     EditText emailEditText;
     EditText companyEditText;
+    String email;
+    String companyName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +28,10 @@ public class FormActivity extends ActionBarActivity {
         Toast.makeText(FormActivity.this, "Button OK Clicked", Toast.LENGTH_SHORT).show();
         emailEditText = (EditText) findViewById(R.id.editEmail);
         companyEditText = (EditText) findViewById(R.id.editCompanyName);
-        System.out.println("emailEditText = " + emailEditText.getText());
-        System.out.println("companyEditText = " + companyEditText.getText());
+        email = emailEditText.getText().toString();
+        companyName = companyEditText.getText().toString();
+        System.out.println("emailEditText = " + emailEditText);
+        System.out.println("companyEditText = " + companyEditText);
         finish();
     }
 
@@ -35,8 +39,8 @@ public class FormActivity extends ActionBarActivity {
     public void finish() {
         // Prepare data intent
         Intent data = new Intent();
-        data.putExtra("email", emailEditText.getText());
-        data.putExtra("company_name", companyEditText.getText());
+        data.putExtra("email", email);
+        data.putExtra("company_name", companyName);
         // Activity finished ok, return the data
         setResult(RESULT_OK, data);
         super.finish();

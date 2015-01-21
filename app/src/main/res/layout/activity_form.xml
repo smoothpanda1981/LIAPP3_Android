@@ -46,7 +46,7 @@
         android:id="@+id/editCompanyName"
         android:layout_below="@+id/textView4"
         android:layout_alignStart="@+id/textView4"
-        android:text="Tim Horton"
+        android:text="Starbucks"
         android:layout_alignParentEnd="true" />
 
 
