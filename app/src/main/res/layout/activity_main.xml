@@ -37,4 +37,13 @@
         android:layout_marginTop="61dp"
         android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/resultTextView"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/button_no"
+        android:layout_alignParentBottom="true" />
+
 </RelativeLayout>

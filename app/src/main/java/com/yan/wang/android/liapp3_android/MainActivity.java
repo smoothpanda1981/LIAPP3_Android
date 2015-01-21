@@ -8,8 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -17,17 +19,24 @@ import org.apache.http.client.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    TextView resultTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -52,12 +61,22 @@ public class MainActivity extends ActionBarActivity {
                 String url = "http://10.0.2.2:8080/wang/tab?email="+ email +"&company="+ company;
                 HttpResponse response = httpclient.execute(new HttpGet(url));
                 StatusLine statusLine = response.getStatusLine();
-                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+               /* if(statusLine.getStatusCode() == HttpStatus.SC_OK){
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     response.getEntity().writeTo(out);
                     String responseString = out.toString();
                     System.out.print(responseString);
                     out.close();
+                }*/
+                if (statusLine.getStatusCode() == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line);
+                        resultTextView.setText(line);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
